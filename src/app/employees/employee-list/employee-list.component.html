@@ -1,0 +1,58 @@
+<div class="header">
+    <h3>
+        List Of Employee(s)
+        <button class="btn btn-primary addBtn" onclick="alert('Button Functionality Under Construction')">
+            Add Employee
+        </button>
+    </h3>
+    <hr>
+    <div>
+        <input type="text"
+        class="form-control md"
+        placeholder="Search your Keyword"
+        [(ngModel)]="filterString">
+    </div>
+    <hr style="color:transparent;">
+</div>
+<table class="table table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>Employee ID</th>
+            <th>Name</th>
+            <th>Designation</th>
+            <th>Phone No.</th>
+            <th>Date of Joining</th>
+            <th>Salary</th>
+            <th>Department</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let employee of employeeService.employees | filter:filterString | paginate: {itemsPerPage: 4,currentPage: page}"
+        [ngStyle]="!employee.active && {'background-color': 'lightgrey'}">  
+            
+            <td>{{employee.empID}}</td>
+            <td>{{employee.empName}}</td>
+            <td>{{employee.designation}}</td>
+            <td>{{employee.empPhone}}</td>
+            <td>{{employee.dateOfJoining|date:'dd-MMM-yyyy'}}</td>
+            <td>{{employee.salary}}</td>
+            <td>{{employee.department.deptName}}</td>
+            <td>
+                <button class="btn btn-secondary actionBtn"
+                (click)="populateForm(employee)">
+                    Edit
+                </button>
+                &nbsp;
+                <button class="btn btn-danger actionBtn"
+                (click)="deleteEmployeeRecord(employee)">
+                    Delete
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="footer">
+    <pagination-controls (pageChange)="page=($event)"></pagination-controls>
+</div>
